@@ -105,17 +105,62 @@ Manga *Remove(Manga *source, int key) {
     return source;
 }
 
-void Printall(Manga *source){                                  // Usando o metodo Pre-Order.
+void Alterar_dados(Manga* source, int key) {
+    Manga* result_1 = Search(source, key);
+
+    if (result_1 != NULL) {
+        printf("\nManga encontrado. Selecione o dado que deseja alterar:\n");
+        printf("1 - Titulo\n");
+        printf("2 - Demografia\n");
+        printf("3 - Numero de paginas\n");
+        printf("4 - Editora\n");
+        printf("5 - Preco\n");
+        
+        int option;
+        scanf("%d", &option);
+
+        switch (option) {
+            case 1:
+                printf("Novo titulo: ");
+                scanf(" %99[^\n]", result_1->name_manga);
+                break;
+            case 2:
+                printf("Nova demografia: ");
+                scanf(" %9[^\n]", result_1->demography);
+                break;
+            case 3:
+                printf("Novo numero de paginas: ");
+                scanf("%u", &result_1->numpag);
+                break;
+            case 4:
+                printf("Nova editora: ");
+                scanf(" %9[^\n]", result_1->publisher);
+                break;
+            case 5:
+                printf("Novo preco: ");
+                scanf("%f", &result_1->price);
+                break;
+            default:
+                printf("Opcao invalida.\n");
+                return;
+        }
+        printf("Dados do manga alterados com sucesso.\n");
+    } else {
+        printf("Manga com a chave %d nao encontrado.\n", key);
+    }
+}
+
+void Printall(Manga *source){                                   // Usando o metodo Pre-Order.
     if(source != NULL){
         printf("ID: %d | Titulo - %s | Demografia - %s | Paginas - %d | Editora - %s | Preco - RS %.2f\n",source->key, source->name_manga, source->demography, source->numpag, source->publisher, source->price);
-        Printall(source->left);                                // Percorre até o nó mais profundo a esquerda da subarvore.
-        Printall(source->right);                               // Percorre até o nó mais profundo a direita da subarvore.
+        Printall(source->left);                                 // Percorre até o nó mais profundo a esquerda da subarvore.
+        Printall(source->right);                                // Percorre até o nó mais profundo a direita da subarvore.
     }
 }
 
 
 int main(){
-    int option;                                             // Grava a opção selecionada pelo usuário.
+    int option;                                                 // Grava a opção selecionada pelo usuário.
 
     int key;
     char name_manga[100];
@@ -144,7 +189,7 @@ int main(){
         scanf(" %d", &option);
 
         switch (option) {
-            case 1:                                        // Opção para adicionar um manga                    
+            case 1:                                                    // Opção para adicionar um manga                    
                 printf("\nDigite os detalhes do Manga:\n");
                 printf("Chave: ");
                 scanf("%d", &key);
@@ -162,21 +207,24 @@ int main(){
                 source = Add(source, key, name_manga, demography, numpag, publisher, price);
                 break;
             
-            case 2:                                                 // Opção para excluir um manga
+            case 2:                                                    // Opção para excluir um manga
                 printf("\nDigite o ID do manga que deseja remover:\n");
                 scanf("%d", &key);
                 source = Remove(source, key);  
                 
                 break;
 
-            case 3:                                                 // Opção para alterar dados cadastrados
-                                                            
+            case 3:  // Opção para alterar dados cadastrados
+                printf("\nDigite o ID do manga que deseja alterar:\n");
+                scanf("%d", &key);
+                Alterar_dados(source, key);
                 break;
-            
-            case 4:                                                 // Opção para buscar um manga                                                        
+
+
+            case 4:                                                    // Opção para buscar um manga                                                        
                 printf("\nDigite o ID que deseja buscar:\n");
                 scanf("%d", &key);
-                Manga* result = Search(source, key);                        
+                Manga *result = Search(source, key);                        
                 if (result != NULL) {
                     printf("\nManga encontrado:\n");
                     printf("ID: %d | Titulo: %s | Demografia: %s | Paginas: %u | Editora: %s | Preco: R$ %.2f\n",result->key, result->name_manga, result->demography, 
