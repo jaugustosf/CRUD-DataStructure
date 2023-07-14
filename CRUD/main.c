@@ -184,7 +184,7 @@ int main(){
                 } else {printf("Manga com a chave %d nao encontrado.\n\n", key);}
                 break;
 
-            case 5:                                                 // Opção para mostrar todos os mangás cadastrados.
+            case 5:                                                    // Opção para mostrar todos os mangás cadastrados.
                 printf("\nTodos os mangas cadastrados:\n");  
                 Printall(source);                                      // Chama a função Print que mostra todos os nós da arvore em forma Pre-Order.
                 break;
