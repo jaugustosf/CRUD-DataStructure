@@ -79,14 +79,11 @@ Manga *Remove(Manga *source, int key) {
         source->left = Remove(source->left, key);
     } else if (key > source->key) {
         source->right = Remove(source->right, key);
-    } else {
-        // Caso 1: Nó folha (não tem filhos)
-        if (source->left == NULL && source->right == NULL) {
+    } else {                                                                    
+        if (source->left == NULL && source->right == NULL) {        // Caso 1: Nó folha (não tem filhos)
             free(source);
             source = NULL;
-        }
-        // Caso 2: Nó com um filho
-        else if (source->left == NULL) {
+        }else if (source->left == NULL) {                           // Caso 2: Nó com um filho
             Manga *aux = source;
             source = source->right;
             free(aux);
@@ -94,9 +91,7 @@ Manga *Remove(Manga *source, int key) {
             Manga *aux = source;
             source = source->left;
             free(aux);
-        }
-        // Caso 3: Nó com dois filhos
-        else {
+        }else{                                                      // Caso 3: Nó com dois filhos
             Manga *aux = encontrarMinimo(source->right);
             source->key = aux->key;
             source->right = Remove(source->right, aux->key);
@@ -115,7 +110,8 @@ void Alterar_dados(Manga* source, int key) {
         printf("3 - Numero de paginas\n");
         printf("4 - Editora\n");
         printf("5 - Preco\n");
-        
+        printf("Escolha uma opcao:");
+
         int option;
         scanf("%d", &option);
 
@@ -152,12 +148,11 @@ void Alterar_dados(Manga* source, int key) {
 
 void Printall(Manga *source){                                   // Usando o metodo Pre-Order.
     if(source != NULL){
-        printf("ID: %d | Titulo - %s | Demografia - %s | Paginas - %d | Editora - %s | Preco - RS %.2f\n",source->key, source->name_manga, source->demography, source->numpag, source->publisher, source->price);
+        printf("ID: %d | Titulo - %s | Demografia - %s | Paginas - %u | Editora - %s | Preco - RS %.2f\n",source->key, source->name_manga, source->demography, source->numpag, source->publisher, source->price);
         Printall(source->left);                                 // Percorre até o nó mais profundo a esquerda da subarvore.
         Printall(source->right);                                // Percorre até o nó mais profundo a direita da subarvore.
     }
 }
-
 
 int main(){
     int option;                                                 // Grava a opção selecionada pelo usuário.
@@ -168,23 +163,33 @@ int main(){
     unsigned int numpag;
     char publisher[10];
     float price;
-
-    source = Add(source, 1, "a", "a", -1, "a", 1);
-    source = Add(source, 6, "Real", "Seinen", 200, "Panini", 34.90);
-    source = Add(source, 9, "One Piece", "Shounen", 100, "Panini", 9.99);
-    source = Add(source, 7, "Naruto", "Shounen", 200, "Panini", 8.99);
-    source = Add(source, 3, "Berserk", "Seinen", 300, "Panini", 12.99);
-    source = Add(source, 4, "Attack on Titan", "Shounen", 150, "Panini", 10.99);
-    source = Add(source, 5, "Death Note", "Shounen", 120, "New Pop", 7.99);
+                                                                // Para não precisar cadastrar todas manualmente coloquei algumas previamente.                                                             
+    source = Add(source, 58, "Real", "Seinen", 200, "Panini", 34.90);
+    source = Add(source, 1, "One Piece", "Shounen", 100, "Panini", 9.99);
+    source = Add(source, 12, "Naruto", "Shounen", 200, "Panini", 8.99);
+    source = Add(source, 93, "Berserk", "Seinen", 300, "Panini", 12.99);
+    source = Add(source, 25, "Attack on Titan", "Shounen", 150, "Panini", 10.99);
+    source = Add(source, 71, "Death Note", "Shounen", 120, "New Pop", 7.99);
+    source = Add(source, 37, "My Hero Academia", "Shounen", 180, "JBC", 14.99);
+    source = Add(source, 84, "Tokyo Ghoul", "Seinen", 100, "New Pop", 11.99);
+    source = Add(source, 66, "Fullmetal Alchemist", "Shounen", 250, "JBC", 16.99);
+    source = Add(source, 45, "Hunter x Hunter", "Shounen", 160, "Panini", 13.99);
+    source = Add(source, 79, "Haikyu!!", "Shounen", 80, "New Pop", 6.99);
+    source = Add(source, 18, "One Punch Man", "Seinen", 90, "JBC", 9.99);
+    source = Add(source, 63, "Demon Slayer", "Shounen", 130, "Panini", 11.99);
+    source = Add(source, 30, "JoJo's Bizarre Adventure", "Seinen", 200, "JBC", 18.99);
+    source = Add(source, 52, "Fairy Tail", "Shounen", 120, "Panini", 10.99);
 
     while(option != 0){
-        printf("\n-----CRUD-----\n");
+        printf("\n============MANGASYSTEM============\n");
         printf(" 1 - Cadastrar Manga\n");
         printf(" 2 - Excluir Manga\n");
         printf(" 3 - Alterar dados cadastrados\n");
         printf(" 4 - Buscar Manga\n");
         printf(" 5 - Mostrar tudo\n");
         printf(" 0 - Sair\n");
+        printf("===================================\n");
+        printf("Escolha uma opcao:");
 
         scanf(" %d", &option);
 
@@ -208,26 +213,26 @@ int main(){
                 break;
             
             case 2:                                                    // Opção para excluir um manga
-                printf("\nDigite o ID do manga que deseja remover:\n");
+                printf("\nDigite o ID do manga que deseja remover:");
                 scanf("%d", &key);
                 source = Remove(source, key);  
                 
                 break;
 
             case 3:  // Opção para alterar dados cadastrados
-                printf("\nDigite o ID do manga que deseja alterar:\n");
+                printf("\nDigite o ID do manga que deseja alterar:");
                 scanf("%d", &key);
                 Alterar_dados(source, key);
                 break;
 
 
             case 4:                                                    // Opção para buscar um manga                                                        
-                printf("\nDigite o ID que deseja buscar:\n");
+                printf("\nDigite o ID que deseja buscar:");
                 scanf("%d", &key);
                 Manga *result = Search(source, key);                        
                 if (result != NULL) {
                     printf("\nManga encontrado:\n");
-                    printf("ID: %d | Titulo: %s | Demografia: %s | Paginas: %u | Editora: %s | Preco: R$ %.2f\n",result->key, result->name_manga, result->demography, 
+                    printf("Titulo: %s | Demografia: %s | Paginas: %u | Editora: %s | Preco: R$ %.2f\n",result->name_manga, result->demography, 
                                                                                                                  result->numpag, result->publisher, result->price);
                 } else {printf("Manga com a chave %d nao encontrado.\n\n", key);}
                 break;
